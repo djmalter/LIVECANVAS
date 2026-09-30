@@ -18,6 +18,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.example.di.AppContainer
+import com.example.ui.screens.browser.BrowserScreen
 import com.example.ui.screens.home.HomeScreen
 import com.example.ui.screens.library.LibraryScreen
 import com.example.ui.screens.scenes.ScenesScreen
@@ -42,6 +43,7 @@ sealed class Screen(
     }
     object Library : Screen("library", "Library", Icons.Filled.VideoLibrary, Icons.Outlined.VideoLibrary)
     object Settings : Screen("settings", "Settings", Icons.Filled.Settings, Icons.Outlined.Settings)
+    object Browser : Screen("browser", "Browser", Icons.Filled.Language, Icons.Outlined.Language)
 }
 
 @Composable
@@ -123,6 +125,9 @@ fun AppNavigation(
                     viewModel = homeVm,
                     onNavigateToStudio = { sceneId ->
                         navController.navigate(Screen.Studio.createRoute(sceneId))
+                    },
+                    onNavigateToBrowser = {
+                        navController.navigate(Screen.Browser.route)
                     }
                 )
             }
@@ -154,6 +159,9 @@ fun AppNavigation(
             composable(Screen.Settings.route) {
                 val settingsVm: SettingsViewModel = viewModel(factory = factory)
                 SettingsScreen(viewModel = settingsVm)
+            }
+            composable(Screen.Browser.route) {
+                BrowserScreen(onNavigateBack = { navController.popBackStack() })
             }
         }
     }

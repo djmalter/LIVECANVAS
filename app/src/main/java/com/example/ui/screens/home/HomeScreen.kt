@@ -33,6 +33,7 @@ import com.example.ui.viewmodel.HomeViewModel
 fun HomeScreen(
     viewModel: HomeViewModel,
     onNavigateToStudio: (String) -> Unit,
+    onNavigateToBrowser: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val recentScenes by viewModel.recentScenes.collectAsStateWithLifecycle()
@@ -70,32 +71,57 @@ fun HomeScreen(
         }
 
         item {
-            // Hero Create Scene Button
-            Button(
-                onClick = {
-                    viewModel.createQuickScene(SourceType.CAMERA) { sceneId ->
-                        onNavigateToStudio(sceneId)
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .testTag("create_scene_button"),
-                shape = RoundedCornerShape(14.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = ElectricIndigo)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = null,
-                    modifier = Modifier.size(22.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Create New Scene",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+            // Hero Create Scene Button & Web Browser Button
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Button(
+                    onClick = {
+                        viewModel.createQuickScene(SourceType.CAMERA) { sceneId ->
+                            onNavigateToStudio(sceneId)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .testTag("create_scene_button"),
+                    shape = RoundedCornerShape(14.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = ElectricIndigo)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null,
+                        modifier = Modifier.size(22.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Create New Scene",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                }
+
+                OutlinedButton(
+                    onClick = onNavigateToBrowser,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .testTag("open_browser_button"),
+                    shape = RoundedCornerShape(12.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, TealAccent),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = TealAccent)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Language,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Open Web Browser (WebRTC Camera)",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
             }
         }
 
