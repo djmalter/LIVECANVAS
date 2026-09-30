@@ -1,0 +1,6 @@
+{
+  "name": "LiveCanvas Studio",
+  "description": "Create, preview, transform, record, and stream your own media scenes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">LiveCanvas Studio</string>
+    <string name="tagline">Create, preview, record, and stream your own media scenes.</string>
+    <string name="disclaimer_heading">What this app can and cannot do</string>
+    <string name="disclaimer_body">LiveCanvas Studio creates and streams scenes from within its own recording and streaming workflow. It does not replace the Android system camera or inject media into third-party video-call applications.</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_scenes">Scenes</string>
+    <string name="nav_studio">Studio</string>
+    <string name="nav_library">Library</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Actions -->
+    <string name="create_scene">Create Scene</string>
+    <string name="quick_sources">Quick Sources</string>
+    <string name="source_camera">Camera</string>
+    <string name="source_photo">Photo</string>
+    <string name="source_video">Video</string>
+    <string name="source_network">Network Stream</string>
+    <string name="source_screen">Screen Share</string>
+    <string name="source_slate">Privacy Slate</string>
+
+    <!-- Studio -->
+    <string name="state_live">LIVE</string>
+    <string name="state_recording">RECORDING</string>
+    <string name="state_preview">PREVIEW</string>
+    <string name="action_go_live">Go Live</string>
+    <string name="action_stop_stream">Stop Stream</string>
+    <string name="action_record">Record</string>
+    <string name="action_stop_record">Stop Record</string>
+    <string name="transform_fit">Fit</string>
+    <string name="transform_fill">Fill</string>
+    <string name="transform_center">Center</string>
+    <string name="transform_reset">Reset</string>
+    <string name="transform_flip_h">Flip H</string>
+    <string name="transform_flip_v">Flip V</string>
+    <string name="transform_rotate">Rotate</string>
+
+    <!-- Audio -->
+    <string name="audio_controls">Audio Controls</string>
+    <string name="mic_toggle">Microphone</string>
+    <string name="source_audio_toggle">Source Audio</string>
+    <string name="mic_volume">Mic Volume</string>
+    <string name="source_volume">Source Volume</string>
+
+    <!-- Settings -->
+    <string name="settings_output_resolution">Default Resolution</string>
+    <string name="settings_output_fps">Default Frame Rate</string>
+    <string name="settings_bitrate">Default Video Bitrate</string>
+    <string name="settings_screen_awake">Keep Screen Awake While Live</string>
+    <string name="settings_allow_local_network">Allow Local Network Media URLs</string>
+    <string name="settings_clear_data">Delete All App Data</string>
+    <string name="settings_clear_recent">Clear Recent Sources</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">Live Studio Session</string>
+    <string name="notification_channel_desc">Active recording or live-streaming scene indicators and controls</string>
+    <string name="notification_stop_action">Stop Session</string>
+</resources>
