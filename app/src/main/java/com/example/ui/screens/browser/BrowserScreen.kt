@@ -72,23 +72,23 @@ fun BrowserScreen(
     var isLoading by remember { mutableStateOf(false) }
     var loadProgress by remember { mutableFloatStateOf(0f) }
 
-    var pendingPermissionRequest by remember { mutableStateOf<PermissionRequest?>(null) }
     var pendingFileCallback by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
 
-    // Native Permission Launcher for WebKit Camera / Microphone Coordination
+    // Ensure native runtime permissions are requested up front
     val nativePermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissionsMap ->
-        val allGranted = permissionsMap.values.all { it }
-        pendingPermissionRequest?.let { req ->
-            if (allGranted) {
-                req.grant(req.resources)
-            } else {
-                req.deny()
-                Toast.makeText(context, "Camera or Microphone permission denied by user", Toast.LENGTH_SHORT).show()
-            }
+    ) { /* Permission response handled by OS */ }
+
+    LaunchedEffect(Unit) {
+        val ungranted = listOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO
+        ).filter {
+            ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
         }
-        pendingPermissionRequest = null
+        if (ungranted.isNotEmpty()) {
+            nativePermissionLauncher.launch(ungranted.toTypedArray())
+        }
     }
 
     // Standard File Chooser Launcher for <input type="file">
@@ -230,35 +230,12 @@ fun BrowserScreen(
                 override fun onPermissionRequest(request: PermissionRequest?) {
                     val req = request ?: return
                     post {
-                        val requestedResources = req.resources
-                        val standardPermissions = mutableListOf<String>()
-
-                        if (requestedResources.contains(PermissionRequest.RESOURCE_VIDEO_CAPTURE)) {
-                            standardPermissions.add(Manifest.permission.CAMERA)
-                        }
-                        if (requestedResources.contains(PermissionRequest.RESOURCE_AUDIO_CAPTURE)) {
-                            standardPermissions.add(Manifest.permission.RECORD_AUDIO)
-                        }
-
-                        val hasNative = standardPermissions.all { perm ->
-                            ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED
-                        }
-
-                        if (hasNative) {
-                            req.grant(requestedResources)
-                        } else {
-                            pendingPermissionRequest = req
-                            nativePermissionLauncher.launch(standardPermissions.toTypedArray())
-                        }
+                        req.grant(req.resources)
                     }
                 }
 
                 override fun onPermissionRequestCanceled(request: PermissionRequest?) {
-                    post {
-                        if (pendingPermissionRequest == request) {
-                            pendingPermissionRequest = null
-                        }
-                    }
+                    super.onPermissionRequestCanceled(request)
                 }
 
                 override fun onShowFileChooser(
